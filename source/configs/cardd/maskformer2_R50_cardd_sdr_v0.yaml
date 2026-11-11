@@ -1,0 +1,12 @@
+_BASE_: "maskformer2_R50_cardd_baseline.yaml"
+
+# P3-v0: local uncertainty+dilation recovery only. No Haar/top-k, GA-MP, or
+# boundary loss is enabled in this experiment.
+MODEL:
+  MASK_FORMER:
+    SDR:
+      ENABLED: True
+      START_LAYER: 6
+      MASK_THRESHOLD: 0.5
+      UNCERTAINTY_MARGIN: 0.15
+      DILATION_RADIUS: 1

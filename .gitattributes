@@ -1,0 +1,4 @@
+# Keep archived source and configuration bytes stable across platforms.
+source/** -text
+diagnostics/reference_implementation/** -text
+reproduction/** -text

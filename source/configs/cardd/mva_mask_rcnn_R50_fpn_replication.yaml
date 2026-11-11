@@ -1,0 +1,70 @@
+# Architecture replication, frozen before this model family's results are seen.
+MODEL:
+  META_ARCHITECTURE: GeneralizedRCNN
+  WEIGHTS: datasets/pretrained/R-50.pkl
+  MASK_ON: true
+  PIXEL_MEAN: [123.675, 116.280, 103.530]
+  PIXEL_STD: [58.395, 57.120, 57.375]
+  BACKBONE:
+    NAME: build_resnet_fpn_backbone
+    FREEZE_AT: 0
+  RESNETS:
+    DEPTH: 50
+    STRIDE_IN_1X1: false
+    OUT_FEATURES: [res2, res3, res4, res5]
+  FPN:
+    IN_FEATURES: [res2, res3, res4, res5]
+  ANCHOR_GENERATOR:
+    SIZES: [[32], [64], [128], [256], [512]]
+    ASPECT_RATIOS: [[0.5, 1.0, 2.0]]
+  RPN:
+    IN_FEATURES: [p2, p3, p4, p5, p6]
+    PRE_NMS_TOPK_TRAIN: 2000
+    PRE_NMS_TOPK_TEST: 1000
+    POST_NMS_TOPK_TRAIN: 1000
+    POST_NMS_TOPK_TEST: 1000
+  ROI_HEADS:
+    NAME: StandardROIHeads
+    IN_FEATURES: [p2, p3, p4, p5]
+    NUM_CLASSES: 6
+    SCORE_THRESH_TEST: 0.001
+    NMS_THRESH_TEST: 0.5
+  ROI_BOX_HEAD:
+    NAME: FastRCNNConvFCHead
+    NUM_FC: 2
+    POOLER_RESOLUTION: 7
+  ROI_MASK_HEAD:
+    NAME: MaskRCNNConvUpsampleHead
+    NUM_CONV: 4
+    POOLER_RESOLUTION: 14
+DATASETS:
+  TRAIN: ("mva_maskrcnn_cardd_train",)
+  TEST: ("mva_maskrcnn_cardd_val",)
+DATALOADER:
+  NUM_WORKERS: 2
+SOLVER:
+  IMS_PER_BATCH: 2
+  BASE_LR: 0.0025
+  MOMENTUM: 0.9
+  WEIGHT_DECAY: 0.0001
+  MAX_ITER: 368750
+  STEPS: (327778, 355092)
+  WARMUP_FACTOR: 0.001
+  WARMUP_ITERS: 1000
+  CHECKPOINT_PERIOD: 10000
+  AMP:
+    ENABLED: true
+INPUT:
+  FORMAT: RGB
+  MASK_FORMAT: bitmask
+  IMAGE_SIZE: 1024
+  MIN_SCALE: 0.1
+  MAX_SCALE: 2.0
+  RANDOM_FLIP: horizontal
+  MIN_SIZE_TEST: 800
+  MAX_SIZE_TEST: 1333
+TEST:
+  EVAL_PERIOD: 0
+  DETECTIONS_PER_IMAGE: 100
+CUDNN_BENCHMARK: false
+VERSION: 2

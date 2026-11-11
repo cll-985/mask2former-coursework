@@ -1,0 +1,17 @@
+_BASE_: "maskformer2_R50_cardd_baseline.yaml"
+
+# GBC-v1 changes exactly one factor from v0: the boundary-loss coefficient.
+# Four active boundary terms (final + last three auxiliary layers) contributed
+# about 29% of the late-stage v0 objective.  A 0.25 coefficient targets an
+# effective contribution near 8-10% while preserving the geometry prior.
+MODEL:
+  MASK_FORMER:
+    GBC:
+      ENABLED: True
+      WEIGHT: 0.25
+      BAND_WIDTH: 1
+      DICE_WEIGHT: 1.0
+      BCE_WEIGHT: 0.5
+      SMALL_AREA_RATIO: 0.01
+      GEO_WEIGHT_MAX: 2.0
+      AUX_LAYERS: 3

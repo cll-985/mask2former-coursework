@@ -1,0 +1,18 @@
+_BASE_: "maskformer2_R50_cardd_baseline.yaml"
+
+# Scale-balanced GBC-v2. The boundary coefficient and all non-GBC training
+# settings remain identical to v1. Geometry weights are made more contrastive
+# and normalized to mean one per matched-target set.
+MODEL:
+  MASK_FORMER:
+    GBC:
+      ENABLED: True
+      WEIGHT: 0.25
+      BAND_WIDTH: 1
+      DICE_WEIGHT: 1.0
+      BCE_WEIGHT: 0.5
+      SMALL_AREA_RATIO: 0.01
+      GEO_WEIGHT_MIN: 0.25
+      GEO_WEIGHT_MAX: 2.0
+      NORMALIZE_WEIGHTS: True
+      AUX_LAYERS: 3

@@ -1,0 +1,7 @@
+# Validated in an isolated target directory; model inference has separate legacy dependencies.
+numpy==2.4.2; python_version >= "3.11"
+numpy==1.21.6; python_version == "3.7"
+numpy==1.24.4; python_version == "3.8"
+numpy==1.26.4; python_version >= "3.9" and python_version < "3.11"
+pycocotools==2.0.11; python_version >= "3.9"
+pycocotools==2.0.7; python_version < "3.9"

@@ -1,0 +1,27 @@
+_BASE_: "../coco/instance-segmentation/maskformer2_R50_bs16_50ep.yaml"
+
+MODEL:
+  WEIGHTS: "datasets/pretrained/R-50.pkl"
+  SEM_SEG_HEAD:
+    NUM_CLASSES: 9
+
+DATASETS:
+  TRAIN: ("ssgk_train",)
+  TEST: ("ssgk_val",)
+
+DATALOADER:
+  NUM_WORKERS: 2
+
+SOLVER:
+  IMS_PER_BATCH: 2
+  BASE_LR: 0.0000125
+  # 50 epochs over 7,495 training images at batch size 2.
+  MAX_ITER: 187375
+  STEPS: (166556, 180434)
+  CHECKPOINT_PERIOD: 5000
+  AMP:
+    ENABLED: True
+
+TEST:
+  EVAL_PERIOD: 5000
+

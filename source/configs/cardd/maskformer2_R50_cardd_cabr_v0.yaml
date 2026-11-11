@@ -1,0 +1,12 @@
+_BASE_: "maskformer2_R50_cardd_baseline.yaml"
+
+MODEL:
+  MASK_FORMER:
+    CABR:
+      ENABLED: True
+      WEIGHT: 1.0
+      BAND_WIDTH: 1
+      DICE_WEIGHT: 1.0
+      BCE_WEIGHT: 0.5
+      GRAD_NORM_CAP: 0.10
+      EPS: 0.000001

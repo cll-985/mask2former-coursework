@@ -1,0 +1,13 @@
+_BASE_: "maskformer2_R50_cardd_baseline.yaml"
+
+# P3-v1: two of eight attention heads perform local detail recovery; the
+# remaining six retain the baseline hard mask to protect semantic scoring.
+MODEL:
+  MASK_FORMER:
+    SDR:
+      ENABLED: True
+      START_LAYER: 6
+      MASK_THRESHOLD: 0.5
+      UNCERTAINTY_MARGIN: 0.05
+      DILATION_RADIUS: 1
+      RESCUE_HEADS: 2
